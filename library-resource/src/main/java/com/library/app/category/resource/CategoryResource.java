@@ -4,6 +4,15 @@ import static com.library.app.common.model.StandardsOperationResults.*;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -24,16 +33,22 @@ import com.library.app.common.model.HttpCode;
 import com.library.app.common.model.OperationResult;
 import com.library.app.common.model.ResourceMessage;
 
+@Path("/categories")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CategoryResource {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static final ResourceMessage RESOURCE_MESSAGE = new ResourceMessage("category");
 
+	@Inject
 	CategoryServices categoryServices;
 
+	@Inject
 	CategoryJsonConverter categoryJsonConverter;
 
+	@POST
 	public Response add(final String body) {
 		logger.debug("Adding a new category with body {}", body);
 		Category category = categoryJsonConverter.convertFrom(body);
@@ -57,7 +72,9 @@ public class CategoryResource {
 		return Response.status(httpCode.getCode()).entity(OperationResultJsonWriter.toJson(result)).build();
 	}
 
-	public Response update(final Long id, final String body) {
+	@PUT
+	@Path("/{id}")
+	public Response update(@PathParam("id") final Long id, final String body) {
 		logger.debug("Updating the category {} with body {}", id, body);
 		final Category category = categoryJsonConverter.convertFrom(body);
 		category.setId(id);
@@ -85,7 +102,9 @@ public class CategoryResource {
 		return Response.status(httpCode.getCode()).entity(OperationResultJsonWriter.toJson(result)).build();
 	}
 
-	public Response findById(final Long id) {
+	@GET
+	@Path("/{id}")
+	public Response findById(@PathParam("id") final Long id) {
 		logger.debug("Find category: {}", id);
 		ResponseBuilder responseBuilder;
 		try {
@@ -102,6 +121,7 @@ public class CategoryResource {
 		return responseBuilder.build();
 	}
 
+	@GET
 	public Response findAll() {
 		logger.debug("Find all categories");
 
