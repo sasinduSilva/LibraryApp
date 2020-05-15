@@ -4,13 +4,14 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.library.app.category.model.Category;
 
 @Stateless
 public class CategoryRepository {
-
+	@PersistenceContext
 	EntityManager em;
 
 	public Category add(final Category category) {
