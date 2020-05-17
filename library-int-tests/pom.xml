@@ -10,7 +10,7 @@
 
 	<properties>
 		<version.arquillian_core>1.1.5.Final</version.arquillian_core>
-		<version.arquillian.>8.1.0.Final</version.arquillian.>
+		<version.arquillian.wildfly>8.1.0.Final</version.arquillian.wildfly>
 	</properties>
 
 	<dependencies>
@@ -84,9 +84,9 @@
 		</profile>
 
 		<profile>
-			<id>integrationTests-</id>
+			<id>integrationTests-wildfly</id>
 			<properties>
-				<jboss.home>target/-8.1.0.Final</jboss.home>
+				<jboss.home>target/wildfly-8.1.0.Final</jboss.home>
 			</properties>
 			<build>
 				<testResources>
@@ -95,7 +95,6 @@
 						<filtering>true</filtering>
 					</testResource>
 				</testResources>
-				<pluginManagement>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -139,9 +138,9 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>org.</groupId>
-									<artifactId>-dist</artifactId>
-									<version>${version.arquillian.}</version>
+									<groupId>org.wildfly</groupId>
+									<artifactId>wildfly-dist</artifactId>
+									<version>${version.arquillian.wildfly}</version>
 									<type>zip</type>
 									<overWrite>false</overWrite>
 									<outputDirectory>target</outputDirectory>
@@ -174,7 +173,6 @@
 						</executions>
 					</plugin>
 				</plugins>
-			</pluginManagement>
 			</build>
 			<dependencyManagement>
 				<dependencies>
@@ -202,9 +200,9 @@
 					<scope>test</scope>
 				</dependency>
 				<dependency>
-					<groupId>org.</groupId>
-					<artifactId>-arquillian-container-managed</artifactId>
-					<version>${version.arquillian.}</version>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+					<version>${version.arquillian.wildfly}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>

@@ -47,9 +47,9 @@ public class CategoryResourceIntTest {
 				.addAsResource("persistence-integration.xml", "META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.setWebXML(new File("src/test/resources/web.xml"))
-				.addAsLibraries(Maven.resolver().resolve("com.google.code.gson:2.3.1", "org.mockito:mockito-core:1.9.5")
-						.withTransitivity().asFile());
-
+				.addAsLibraries(
+						Maven.resolver().resolve("com.google.code.gson:gson:2.3.1", "org.mockito:mockito-core:1.9.5")
+								.withTransitivity().asFile());
 	}
 
 	@Before
@@ -60,19 +60,16 @@ public class CategoryResourceIntTest {
 	@Test
 	@RunAsClient
 	public void addValidCategoryAndFindIt() {
-
-		final Response response = resourceClient.resourcePath(PATH_RESOURCE)
-				.postWithFile(getPathFileRequest(PATH_RESOURCE, "category.json"));
+		final Response response = resourceClient.resourcePath(PATH_RESOURCE).postWithFile(
+				getPathFileRequest(PATH_RESOURCE, "category.json"));
 		assertThat(response.getStatus(), is(equalTo(HttpCode.CREATED.getCode())));
-		final Long id = JsonTestUtils.getIDFromJson(response.readEntity(String.class));
+		final Long id = JsonTestUtils.getIdFromJson(response.readEntity(String.class));
 
 		final Response responseGet = resourceClient.resourcePath(PATH_RESOURCE + "/" + id).get();
-		assertThat(response.getStatus(), is(equalTo(HttpCode.OK.getCode())));
+		assertThat(responseGet.getStatus(), is(equalTo(HttpCode.OK.getCode())));
 
-		final JsonObject categoryAsJson = com.library.app.common.json.JsonReader
-				.readAsJsonObject(responseGet.readEntity(String.class));
+		final JsonObject categoryAsJson = JsonReader.readAsJsonObject(responseGet.readEntity(String.class));
 		assertThat(JsonReader.getStringOrNull(categoryAsJson, "name"), is(equalTo(java().getName())));
-
 	}
 
 }

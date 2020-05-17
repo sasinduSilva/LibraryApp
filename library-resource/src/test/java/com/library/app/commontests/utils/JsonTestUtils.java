@@ -9,6 +9,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import com.google.gson.JsonObject;
+import com.library.app.common.json.JsonReader;
 
 @Ignore
 public class JsonTestUtils {
@@ -36,9 +37,9 @@ public class JsonTestUtils {
 		}
 	}
 
-	public static Long getIDFromJson(final String json) {
-		final JsonObject jsonObject = com.library.app.common.json.JsonReader.readAsJsonObject(json);
-		return com.library.app.common.json.JsonReader.getLongOrNull(jsonObject, "id");
+	public static Long getIdFromJson(final String json) {
+		final JsonObject jsonObject = JsonReader.readAsJsonObject(json);
+		return JsonReader.getLongOrNull(jsonObject, "id");
 	}
 
 }
